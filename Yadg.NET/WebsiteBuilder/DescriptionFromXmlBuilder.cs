@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace YadgNet
+﻿namespace YadgNet
 {
     public sealed class DescriptionFromXmlBuilder
     {
@@ -22,7 +16,7 @@ namespace YadgNet
                 return xml;
             var linkInside = xml.Substring(id + 2, nextId - id - 2);
             if (linkInside.Contains('<') || linkInside.Contains('>'))
-                return xml;
+                return xml.Substring(0, id + 2) + FixLinks(xml.Substring(id + 2));
             return xml.Substring(0, nextId) + ">Link</a>" + FixLinks(xml.Substring(nextId + 2));
         }
         public string Build()
