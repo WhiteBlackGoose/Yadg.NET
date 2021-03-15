@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutputDocsParser", "OutputDocsParser\OutputDocsParser.csproj", "{8972AFEE-7A95-45E0-91AD-6020DCAD1BCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yadg.NET", "Yadg.NET\Yadg.NET.csproj", "{8972AFEE-7A95-45E0-91AD-6020DCAD1BCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
