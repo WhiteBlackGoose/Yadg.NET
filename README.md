@@ -1,4 +1,4 @@
-## Yadg.NET
+# Yadg.NET
 
 Yet Another Documentation Generator for .NET. Unlike others, it parses the output folder of a given project. Also,
 it's not a program, it's a library (but easily can be used as a program).

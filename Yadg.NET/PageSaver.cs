@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OutputDocsParser
+namespace YadgNet
 {
     public sealed class PageSaver : IPageSave
     {
