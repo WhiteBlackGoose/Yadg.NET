@@ -6,10 +6,10 @@ namespace YadgNet
     internal static class HtmlTags
     {
         internal static string tag(string text, string tag)
-           => $"<{tag}>{text}</{tag}>";
+           => tagClass(text, tag, "");
 
         internal static string tagClass(string text, string tag, string @class)
-            => $"<{tag} class=\"{@class}\">{text}</{tag}>";
+            => $"<{tag} class=\"yadg-{tag} {@class}\">{text}</{tag}>";
 
         internal static string p(string text)
             => tag(text, "p");
@@ -25,6 +25,10 @@ namespace YadgNet
             => tagClass(text, "h2", "centered");
         internal static string h3(string text)
             => tag(text, "h3");
+        internal static string h4(string text)
+            => tag(text, "h4");
+        internal static string div(string text, string @class)
+            => tagClass(text, "div", @class);
         internal static string hr() => "<hr/>";
         internal static string a(string href, string text)
             => $"<a href=\"{href}\">{text}</a>";

@@ -1,4 +1,6 @@
-﻿namespace YadgNet
+﻿using static YadgNet.HtmlTags;
+
+namespace YadgNet
 {
     public sealed class DescriptionFromXmlBuilder
     {
@@ -19,7 +21,26 @@
                 return xml.Substring(0, id + 2) + FixLinks(xml.Substring(id + 2));
             return xml.Substring(0, nextId) + ">Link</a>" + FixLinks(xml.Substring(nextId + 2));
         }
+
+        private string ReplaceTag(string before, string tag, string src)
+            => src
+                .Replace($"<{tag}", $"{before}<div class='yadg-{tag}'")
+                .Replace($"</{tag}>", $"</div>");
+
         public string Build()
-            => FixLinks(xml);
+            => 
+            ReplaceTag(
+                h4("Returns"),
+                "returns",
+                ReplaceTag(
+                    h4("Summary"),
+                    "summary",
+                    ReplaceTag(
+                        h4("Parameter"),
+                        "param",
+                        FixLinks(xml)
+                    )
+                )
+            );
     }
 }
