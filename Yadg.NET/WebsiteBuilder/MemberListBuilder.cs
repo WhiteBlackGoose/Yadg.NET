@@ -27,7 +27,7 @@ namespace YadgNet
             h3("Members") +
 
             p(
-                ul(
+                ul("yadg-member",
                     cls.Members.Select(
                         member
                             => member switch

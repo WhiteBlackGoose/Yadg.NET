@@ -6,6 +6,7 @@ namespace YadgNet
     public sealed class NamespaceListBuilder
     {
         public string MainPageName { get; set; } = "";
+        public string MainPageDescription { get; set; } = "";
         private readonly DocAssembly assembly;
         public NamespaceListBuilder(DocAssembly assembly)
             => this.assembly = assembly;
@@ -15,6 +16,8 @@ namespace YadgNet
             h2_centered(MainPageName) +
 
             hr() +
+
+            p(MainPageDescription) +
 
             p(
                 ul(

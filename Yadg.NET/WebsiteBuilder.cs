@@ -9,6 +9,7 @@ namespace YadgNet
 
     public sealed class WebsiteBuilder
     {
+        public string MainPageDescription { get; set; } = "Welcome to manual!";
         public string MainPageName { get; set; } = "My Documentation";
         public string BackToNamespacesButtonText { get; set; } = "&#8592; Back to list of namespaces";
         public string BackToClassesButtonText { get; set; } = "&#8592; Back to list of classes";
@@ -36,7 +37,8 @@ namespace YadgNet
             saver.Save("namespaces.html", 
                 new NamespaceListBuilder(assembly)
                 { 
-                    MainPageName = MainPageName 
+                    MainPageName = MainPageName,
+                    MainPageDescription = MainPageDescription
                 }
                 .Build()
                 );

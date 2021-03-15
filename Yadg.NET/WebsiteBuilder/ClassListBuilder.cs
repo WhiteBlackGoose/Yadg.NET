@@ -21,7 +21,7 @@ namespace YadgNet
             p($"Classes within the {nspace.Name} namespace") +
 
             p(
-                ul(
+                ul("yadg-class",
                     nspace.Classes.Select(
                         cls
                             =>
