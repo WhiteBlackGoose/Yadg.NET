@@ -31,7 +31,7 @@ namespace YadgNet
                                 :
                                 cls.Name
                                 ) +
-                                new DescriptionFromXmlBuilder(cls.Description).Build()
+                                new DescriptionFromXmlBuilder(cls.Description, "").Build()
                     )
                 )
             );

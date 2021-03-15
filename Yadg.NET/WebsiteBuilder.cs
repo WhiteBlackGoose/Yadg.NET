@@ -1,4 +1,6 @@
-﻿namespace YadgNet
+﻿using System;
+
+namespace YadgNet
 {
     public interface IPageSave
     {
@@ -14,6 +16,20 @@
         private readonly IPageSave saver;
         public WebsiteBuilder(IPageSave saver)
             => this.saver = saver;
+
+        internal static string GetLinkByName(string cref)
+            => (cref[..2], cref[2..]) switch
+            {
+                ("T:", var full)
+                    => $"{NameParser.OneFoldBack(full)}/{NameParser.LastFold(full)}.html",
+                ("P:", var full) when NameParser.OneFoldBack(full) is var classFullName
+                    => $"{NameParser.OneFoldBack(classFullName)}/{NameParser.LastFold(classFullName)}.html#{NameParser.LastFold(full)}",
+                ("F:", var full) when NameParser.OneFoldBack(full) is var classFullName
+                    => $"{NameParser.OneFoldBack(classFullName)}/{NameParser.LastFold(classFullName)}.html#{NameParser.LastFold(full)}",
+                ("M:", var full) when NameParser.OneFoldBack(full) is var classFullName
+                    => $"{NameParser.OneFoldBack(classFullName)}/{NameParser.LastFold(classFullName)}.html#{NameParser.LastFold(NameParser.GetMethodName(full))}",
+                _ => throw new InvalidOperationException()
+            };
 
         public void Build(DocAssembly assembly)
         {

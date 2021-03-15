@@ -32,5 +32,7 @@ namespace YadgNet
         internal static string hr() => "<hr/>";
         internal static string a(string href, string text)
             => $"<a href=\"{href}\">{text}</a>";
+        internal static string b(string text)
+            => tag(text, "strong");
     }
 }

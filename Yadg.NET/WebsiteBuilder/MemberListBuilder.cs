@@ -22,7 +22,7 @@ namespace YadgNet
 
             h3("Description") +
 
-            new DescriptionFromXmlBuilder(cls.Description).Build() +
+            new DescriptionFromXmlBuilder(cls.Description, "../").Build() +
 
             h3("Members") +
 
@@ -33,6 +33,8 @@ namespace YadgNet
                             => member switch
                             {
                                 DocMethod method =>
+                                    $"<a name='{method.Name}'></a>" +
+                                    (
                                     method.Overloads.Count() == 1
 
                                     ?
@@ -40,7 +42,7 @@ namespace YadgNet
                                     p(
                                         $"Method {method.Name + method.Overloads.First().Parameters}"
                                     ) +
-                                    p(new DescriptionFromXmlBuilder(method.Overloads.First().Description).Build())
+                                    p(new DescriptionFromXmlBuilder(method.Overloads.First().Description, "../").Build())
 
                                     :
 
@@ -52,16 +54,17 @@ namespace YadgNet
                                         method.Overloads.Select(
                                             overload =>
                                                 p($"{method.Name}{overload.Parameters}") +
-                                                p(new DescriptionFromXmlBuilder(overload.Description).Build())
+                                                p(new DescriptionFromXmlBuilder(overload.Description, "../").Build())
                                         )
                                     )
-
+                                    )
                                 ,
                                 DocProperty property =>
+                                    $"<a name='{property.Name}'></a>" +
                                     p(
                                         $"Property {property.Name}"
                                     ) +
-                                    p(new DescriptionFromXmlBuilder(property.Description).Build()),
+                                    p(new DescriptionFromXmlBuilder(property.Description, "../").Build()),
                                 _ => throw new Exception()
                             }
                     )
