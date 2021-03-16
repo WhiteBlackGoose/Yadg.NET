@@ -7,6 +7,8 @@ namespace YadgNet
     {
         public string MainPageName { get; set; } = "";
         public string MainPageDescription { get; set; } = "";
+        public string MainPageBottomText { get; set; } = "";
+
         private readonly DocAssembly assembly;
         public NamespaceListBuilder(DocAssembly assembly)
             => this.assembly = assembly;
@@ -25,6 +27,8 @@ namespace YadgNet
                         nspace => a(nspace.Name + ".html", nspace.Name)
                         )
                 )
-            );
+            )
+            
+            + MainPageBottomText;
     }
 }

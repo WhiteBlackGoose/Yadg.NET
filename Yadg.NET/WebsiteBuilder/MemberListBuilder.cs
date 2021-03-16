@@ -20,11 +20,11 @@ namespace YadgNet
 
             p(a($"../{back}", "&#8592; Back to list of classes")) +
 
-            h3("Description") +
+            h2("Description") +
 
             new DescriptionFromXmlBuilder(cls.Description, "../").Build() +
 
-            h3("Members") +
+            h2("Members") +
 
             p(
                 ul("yadg-member yadg-list",
@@ -68,7 +68,7 @@ namespace YadgNet
                                 DocField field =>
                                     $"<a name='{field.Name}'></a>" +
                                     p(
-                                        $"{h3(field.Name)} Method"
+                                        $"{h3(field.Name)} Field"
                                     ) +
                                     p(new DescriptionFromXmlBuilder(field.Description, "../").Build()),
                                 _ => throw new Exception()

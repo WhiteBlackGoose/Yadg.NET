@@ -73,7 +73,7 @@ namespace YadgNet
         }
 
         private static string N2Br(string src)
-            => src.Replace("\n", "<br>").Replace("><br>", "");
+            => src.Replace("\n", "<br>").Replace("><br>", ">");
 
         private static string CodeToPreCodeAndN2Br(string src)
         {
@@ -101,33 +101,63 @@ namespace YadgNet
                     ReplaceTag(
                         p(b("Summary")),
                         "summary",
-                        ReplaceAttributedOpenCloseTag(
-                            tName => p(b($"Type parameter \"{tName}\"")),
-                            "typeparam",
-                            "name",
+                        ReplaceTag(
+                            p(b("Remarks")),
+                            "remarks",
                             ReplaceAttributedOpenCloseTag(
-                                pName => p(b($"Parameter \"{pName}\"")),
-                                "param",
-                                "name",
-                                ReplaceAttributedCloseTag(
-                                    cref =>
-                                        (
-                                            WebsiteBuilder.GetLinkWithinAsmByName(cref) is { } link
+                                eName => p(b(
+                                            "Exception \"" + 
+                                         (
+                                            WebsiteBuilder.GetLinkWithinAsmByName(eName) is { } link
                                             ?
-                                            a(upPath + link, NameParser.LastFold(cref))
+                                            a(upPath + link, NameParser.LastFold(eName))
                                             :
-                                            NameParser.LastFold(cref)
-                                        ),
-                                    "see",
-                                    "cref",
-                                    ReplaceAttributedCloseTag(
-                                        href => a(href, href),
-                                        "a",
-                                        "href",
-                                        CodeToPreCodeAndN2Br(
-                                            xml
-                                            .Replace("\r", "")
-                                            .Replace("\" />", "\"/>")
+                                            NameParser.LastFold(eName)
+                                         ) + "\""
+                                        )
+                                    )
+                                    ,
+                                "exception",
+                                "cref",
+                                ReplaceAttributedOpenCloseTag(
+                                    tName => p(b($"Type parameter \"{tName}\"")),
+                                    "typeparam",
+                                    "name",
+                                    ReplaceAttributedOpenCloseTag(
+                                        pName => p(b($"Parameter \"{pName}\"")),
+                                        "param",
+                                        "name",
+                                        ReplaceAttributedCloseTag(
+                                            langword => cw(langword),
+                                            "see",
+                                            "langword",
+                                            ReplaceAttributedCloseTag(
+                                                name => cw(name),
+                                                "paramref",
+                                                "name",
+                                                ReplaceAttributedCloseTag(
+                                                    cref =>
+                                                        (
+                                                            WebsiteBuilder.GetLinkWithinAsmByName(cref) is { } link
+                                                            ?
+                                                            a(upPath + link, NameParser.LastFold(cref))
+                                                            :
+                                                            NameParser.LastFold(cref)
+                                                        ),
+                                                    "see",
+                                                    "cref",
+                                                    ReplaceAttributedCloseTag(
+                                                        href => a(href, href),
+                                                        "a",
+                                                        "href",
+                                                        CodeToPreCodeAndN2Br(
+                                                            xml
+                                                            .Replace("\r", "")
+                                                            .Replace("\" />", "\"/>")
+                                                        )
+                                                    )
+                                                )
+                                            )
                                         )
                                     )
                                 )

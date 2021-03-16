@@ -43,6 +43,6 @@ namespace YadgNet
         internal static string b(string text)
             => tag(text, "strong");
         internal static string cw(string text)
-            => div(text, "cw");
+            => tag(text, "text", "cw");
     }
 }
