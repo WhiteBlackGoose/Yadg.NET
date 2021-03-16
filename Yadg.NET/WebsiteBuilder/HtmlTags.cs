@@ -42,5 +42,7 @@ namespace YadgNet
             => $"<a href=\"{href}\">{text}</a>";
         internal static string b(string text)
             => tag(text, "strong");
+        internal static string cw(string text)
+            => div(text, "cw");
     }
 }

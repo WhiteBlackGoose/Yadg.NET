@@ -24,6 +24,13 @@ namespace YadgNet
         public override DocProperty Build() => new DocProperty(Name ?? throw new NullReferenceException(), Description ?? throw new NullReferenceException());
     }
 
+    public sealed class DocFieldBuilder : DocMemberBuilder
+    {
+        public string? Name { get; set; }
+        public string Description { get; set; } = "";
+        public override DocField Build() => new DocField(Name ?? throw new NullReferenceException(), Description ?? throw new NullReferenceException());
+    }
+
     public abstract record DocMember;
 
     public sealed record DocMethod(IEnumerable<DocOverload> Overloads, string Name) : DocMember;
@@ -31,4 +38,6 @@ namespace YadgNet
     public sealed record DocOverload(string Parameters, string Description);
 
     public sealed record DocProperty(string Name, string Description) : DocMember;
+
+    public sealed record DocField(string Name, string Description) : DocMember;
 }

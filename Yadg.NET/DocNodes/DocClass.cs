@@ -25,6 +25,16 @@ namespace YadgNet
             return prop;
         }
 
+        public DocFieldBuilder InsertField(string name)
+        {
+            if (Members.TryGetValue(name, out var res))
+                return (DocFieldBuilder)res;
+            var prop = new DocFieldBuilder();
+            prop.Name = name;
+            Members[name] = prop;
+            return prop;
+        }
+
         public DocMethodBuilder InsertMethod(string name)
         {
             if (Members.TryGetValue(name, out var res))

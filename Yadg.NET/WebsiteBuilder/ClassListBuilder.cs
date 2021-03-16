@@ -21,15 +21,15 @@ namespace YadgNet
             p($"Classes within the {nspace.Name} namespace") +
 
             p(
-                ul("yadg-class",
+                ul("yadg-class yadg-list",
                     nspace.Classes.Select(
                         cls
                             =>
                                 (cls.Members.Count() > 0
                                 ?
-                                a($"{nspace.Name}/{cls.Name}.html", cls.Name)
+                                h3(a($"{nspace.Name}/{cls.Name}.html", cls.Name))
                                 :
-                                cls.Name
+                                h3(cls.Name)
                                 ) +
                                 new DescriptionFromXmlBuilder(cls.Description, "").Build()
                     )

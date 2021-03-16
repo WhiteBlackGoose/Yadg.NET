@@ -39,6 +39,18 @@ namespace YadgNet
                                 .Description = text;
                 }
                 else
+                if (techName.StartsWith("F:") && techName[2..] is var fullFieldName)
+                {
+                    fullClassName = NameParser.OneFoldBack(fullFieldName);
+                    var namespaceName = NameParser.OneFoldBack(fullClassName);
+                    var className = NameParser.LastFold(fullClassName);
+                    var fieldName = NameParser.LastFold(fullFieldName);
+                    InsertNamespace(namespaceName)
+                        .InsertClass(className)
+                            .InsertField(fieldName)
+                                .Description = text;
+                }
+                else
                 if (techName.StartsWith("M:") && techName[2..] is var fullMethodName)
                 {
                     fullClassName = NameParser.OneFoldBack(fullMethodName);

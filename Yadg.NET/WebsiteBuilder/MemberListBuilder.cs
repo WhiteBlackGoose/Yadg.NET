@@ -27,7 +27,7 @@ namespace YadgNet
             h3("Members") +
 
             p(
-                ul("yadg-member",
+                ul("yadg-member yadg-list",
                     cls.Members.Select(
                         member
                             => member switch
@@ -40,20 +40,20 @@ namespace YadgNet
                                     ?
 
                                     p(
-                                        $"Method {method.Name + method.Overloads.First().Parameters}"
+                                        $"{h3(method.Name + method.Overloads.First().Parameters.Replace(",", ", "))} Method"
                                     ) +
                                     p(new DescriptionFromXmlBuilder(method.Overloads.First().Description, "../").Build())
 
                                     :
 
                                     p(
-                                        $"Method {method.Name} and its overloads"
+                                        $"{h3(method.Name)} Method and its overloads"
                                     ) +
 
-                                    ul(
+                                    ul("yadg-list-2",
                                         method.Overloads.Select(
                                             overload =>
-                                                p($"{method.Name}{overload.Parameters}") +
+                                                h3($"{method.Name}{overload.Parameters.Replace(",", ", ")}") +
                                                 p(new DescriptionFromXmlBuilder(overload.Description, "../").Build())
                                         )
                                     )
@@ -62,9 +62,15 @@ namespace YadgNet
                                 DocProperty property =>
                                     $"<a name='{property.Name}'></a>" +
                                     p(
-                                        $"Property {property.Name}"
+                                        $"{h3(property.Name)} Property"
                                     ) +
                                     p(new DescriptionFromXmlBuilder(property.Description, "../").Build()),
+                                DocField field =>
+                                    $"<a name='{field.Name}'></a>" +
+                                    p(
+                                        $"{h3(field.Name)} Method"
+                                    ) +
+                                    p(new DescriptionFromXmlBuilder(field.Description, "../").Build()),
                                 _ => throw new Exception()
                             }
                     )

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using static YadgNet.HtmlTags;
 
 namespace YadgNet
@@ -9,20 +10,6 @@ namespace YadgNet
         private readonly string upPath;
         public DescriptionFromXmlBuilder(string xml, string upPath)
             => (this.xml, this.upPath) = (xml, upPath);
-
-        private static string FixLinks(string xml)
-        {
-            if (!xml.Contains("<a"))
-                return xml;
-            var id = xml.IndexOf("<a");
-            var nextId = xml.IndexOf("/>", id);
-            if (nextId == -1)
-                return xml;
-            var linkInside = xml.Substring(id + 2, nextId - id - 2);
-            if (linkInside.Contains('<') || linkInside.Contains('>'))
-                return xml.Substring(0, id + 2) + FixLinks(xml.Substring(id + 2));
-            return xml.Substring(0, nextId) + ">Link</a>" + FixLinks(xml.Substring(nextId + 2));
-        }
 
         private static string ReplaceTag(string before, string tag, string src)
             => src
@@ -74,31 +61,69 @@ namespace YadgNet
                 ReplaceAttributedCloseTag(attrDelegate, tag, attr, src[lastId..]);
         }
 
+        private string FindWhiteSpace(string src, int until)
+        {
+            var sb = new StringBuilder();
+            var len = 0;
+            while (until - len >= 0 && src[until - len] == ' ')
+            {
+                len++;
+                sb.Append(" ");
+            }
+            return sb.ToString();
+        }
+
+        private string CodeToPreCode(string src)
+        {
+            if (src.Contains("x + 8 - 4"))
+                Console.WriteLine();
+            var unjailed = Unjail("<code>", "</code>", src);
+            if (unjailed is not { } unjailedNotNull)
+                return src;
+            var (inside, first, last) = unjailedNotNull;
+            inside = inside.Replace("<br>", "\n");
+            inside = inside.Replace("\r\n", "\n");
+            inside = inside.Replace("\n" + FindWhiteSpace(src, first - 1), "\n");
+            if (inside.StartsWith('\n'))
+                inside = inside[1..];
+            if (inside.EndsWith('\n'))
+                inside = inside.Substring(0, inside.Length - 1);
+            return src.Substring(0, first) + $"<pre><code>{inside}</code></pre>" + CodeToPreCode(src.Substring(last));
+        }
+
         public string Build()
             => 
             ReplaceTag(
-                h4("Returns"),
-                "returns",
+                p(b("Example")),
+                "example",
                 ReplaceTag(
-                    h4("Summary"),
-                    "summary",
-                    ReplaceAttributedOpenCloseTag(
-                        tName => h4($"Type parameter {b(tName)}"),
-                        "typeparam",
-                        "name",
+                    p(b("Returns")),
+                    "returns",
+                    ReplaceTag(
+                        p(b("Summary")),
+                        "summary",
                         ReplaceAttributedOpenCloseTag(
-                            pName => h4($"Parameter {b(pName)}"),
-                            "param",
+                            tName => p(b($"Type parameter \"{tName}\"")),
+                            "typeparam",
                             "name",
-                            ReplaceAttributedCloseTag(
-                                cref => a(upPath + WebsiteBuilder.GetLinkByName(cref), NameParser.LastFold(cref)),
-                                "see",
-                                "cref",
+                            ReplaceAttributedOpenCloseTag(
+                                pName => p(b($"Parameter \"{pName}\"")),
+                                "param",
+                                "name",
                                 ReplaceAttributedCloseTag(
-                                    href => a(href, href),
-                                    "a",
-                                    "href",
-                                    xml.Replace("\" />", "\"/>")
+                                    cref => a(upPath + WebsiteBuilder.GetLinkByName(cref), NameParser.LastFold(cref)),
+                                    "see",
+                                    "cref",
+                                    ReplaceAttributedCloseTag(
+                                        href => a(href, href),
+                                        "a",
+                                        "href",
+                                        CodeToPreCode(
+                                            xml
+                                            .Replace("\" />", "\"/>")
+                                            // .Replace("\n", "<br>")
+                                        )
+                                    )
                                 )
                             )
                         )
