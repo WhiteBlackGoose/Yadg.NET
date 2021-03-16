@@ -61,7 +61,7 @@ namespace YadgNet
                 ReplaceAttributedCloseTag(attrDelegate, tag, attr, src[lastId..]);
         }
 
-        private string FindWhiteSpace(string src, int since)
+        private static string FindWhiteSpace(string src, int since)
         {
             var sb = new StringBuilder();
             while (since < src.Length && src[since] == ' ')
@@ -72,11 +72,14 @@ namespace YadgNet
             return sb.ToString();
         }
 
-        private string CodeToPreCodeAndN2Br(string src)
+        private static string N2Br(string src)
+            => src.Replace("\n", "<br>").Replace("><br>", "");
+
+        private static string CodeToPreCodeAndN2Br(string src)
         {
             var unjailed = Unjail("<code>", "</code>", src);
             if (unjailed is not { } unjailedNotNull)
-                return src.Replace("\n", "<br>");
+                return N2Br(src);
             var (inside, first, last) = unjailedNotNull;
             
             inside = inside.Replace("\n" + FindWhiteSpace(src, first + 7), "\n");
@@ -84,7 +87,7 @@ namespace YadgNet
                 inside = inside[1..];
             if (inside.EndsWith('\n'))
                 inside = inside.Substring(0, inside.Length - 1);
-            return src.Substring(0, first).Replace("\n", "<br>") + $"<pre><code>{inside.Replace("<br>", "\n")}</code></pre>" + CodeToPreCodeAndN2Br(src.Substring(last));
+            return N2Br(src.Substring(0, first)) + $"<pre><code>{inside.Replace("<br>", "\n")}</code></pre>" + CodeToPreCodeAndN2Br(src.Substring(last));
         }
 
         public string Build()
@@ -107,7 +110,14 @@ namespace YadgNet
                                 "param",
                                 "name",
                                 ReplaceAttributedCloseTag(
-                                    cref => a(upPath + WebsiteBuilder.GetLinkByName(cref), NameParser.LastFold(cref)),
+                                    cref =>
+                                        (
+                                            WebsiteBuilder.GetLinkWithinAsmByName(cref) is { } link
+                                            ?
+                                            a(upPath + link, NameParser.LastFold(cref))
+                                            :
+                                            NameParser.LastFold(cref)
+                                        ),
                                     "see",
                                     "cref",
                                     ReplaceAttributedCloseTag(

@@ -18,9 +18,11 @@ namespace YadgNet
         public WebsiteBuilder(IPageSave saver)
             => this.saver = saver;
 
-        internal static string GetLinkByName(string cref)
+        internal static string? GetLinkWithinAsmByName(string cref)
             => (cref[..2], cref[2..]) switch
             {
+                (_, var containsSystem) when NameParser.GetMethodName(cref).Contains("System")
+                    => null,
                 ("T:", var full)
                     => $"{NameParser.OneFoldBack(full)}/{NameParser.LastFold(full)}.html",
                 ("P:", var full) when NameParser.OneFoldBack(full) is var classFullName
