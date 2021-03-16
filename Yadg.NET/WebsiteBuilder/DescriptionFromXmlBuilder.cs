@@ -9,7 +9,7 @@ namespace YadgNet
         private readonly string xml;
         private readonly string upPath;
         public DescriptionFromXmlBuilder(string xml, string upPath)
-            => (this.xml, this.upPath) = (xml, upPath);
+            => (this.xml, this.upPath) = (xml, upPath);        
 
         private static string ReplaceTag(string before, string tag, string src)
             => src
@@ -61,34 +61,30 @@ namespace YadgNet
                 ReplaceAttributedCloseTag(attrDelegate, tag, attr, src[lastId..]);
         }
 
-        private string FindWhiteSpace(string src, int until)
+        private string FindWhiteSpace(string src, int since)
         {
             var sb = new StringBuilder();
-            var len = 0;
-            while (until - len >= 0 && src[until - len] == ' ')
+            while (since < src.Length && src[since] == ' ')
             {
-                len++;
                 sb.Append(" ");
+                since++;
             }
             return sb.ToString();
         }
 
-        private string CodeToPreCode(string src)
+        private string CodeToPreCodeAndN2Br(string src)
         {
-            if (src.Contains("x + 8 - 4"))
-                Console.WriteLine();
             var unjailed = Unjail("<code>", "</code>", src);
             if (unjailed is not { } unjailedNotNull)
-                return src;
+                return src.Replace("\n", "<br>");
             var (inside, first, last) = unjailedNotNull;
-            inside = inside.Replace("<br>", "\n");
-            inside = inside.Replace("\r\n", "\n");
-            inside = inside.Replace("\n" + FindWhiteSpace(src, first - 1), "\n");
+            
+            inside = inside.Replace("\n" + FindWhiteSpace(src, first + 7), "\n");
             if (inside.StartsWith('\n'))
                 inside = inside[1..];
             if (inside.EndsWith('\n'))
                 inside = inside.Substring(0, inside.Length - 1);
-            return src.Substring(0, first) + $"<pre><code>{inside}</code></pre>" + CodeToPreCode(src.Substring(last));
+            return src.Substring(0, first).Replace("\n", "<br>") + $"<pre><code>{inside.Replace("<br>", "\n")}</code></pre>" + CodeToPreCodeAndN2Br(src.Substring(last));
         }
 
         public string Build()
@@ -118,10 +114,10 @@ namespace YadgNet
                                         href => a(href, href),
                                         "a",
                                         "href",
-                                        CodeToPreCode(
+                                        CodeToPreCodeAndN2Br(
                                             xml
+                                            .Replace("\r", "")
                                             .Replace("\" />", "\"/>")
-                                            // .Replace("\n", "<br>")
                                         )
                                     )
                                 )
