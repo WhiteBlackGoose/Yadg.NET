@@ -12,6 +12,9 @@ namespace YadgNet
         public MemberListBuilder(DocClass cls)
             => this.cls = cls;
 
+        private static string SplitWrapWordsMethod(string method)
+            => method.Replace(",", ", ").Replace("(", " (").Replace(".", ". ");
+
         public string Build(string back)
             =>
             h2_centered(cls.Name) +
@@ -40,7 +43,7 @@ namespace YadgNet
                                     ?
 
                                     p(
-                                        $"{h3(method.Name + method.Overloads.First().Parameters.Replace(",", ", "))} Method"
+                                        $"{h3(SplitWrapWordsMethod(method.Name + method.Overloads.First().Parameters))} Method"
                                     ) +
                                     p(new DescriptionFromXmlBuilder(method.Overloads.First().Description, "../").Build())
 
@@ -53,7 +56,7 @@ namespace YadgNet
                                     ul("yadg-list-2",
                                         method.Overloads.Select(
                                             overload =>
-                                                h3($"{method.Name}{overload.Parameters.Replace(",", ", ")}") +
+                                                h3(SplitWrapWordsMethod(method.Name + overload.Parameters)) +
                                                 p(new DescriptionFromXmlBuilder(overload.Description, "../").Build())
                                         )
                                     )

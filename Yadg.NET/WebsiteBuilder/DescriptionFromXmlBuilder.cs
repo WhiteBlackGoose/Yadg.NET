@@ -16,7 +16,7 @@ namespace YadgNet
                 .Replace($"<{tag}", $"{before}<div class='yadg-{tag}'")
                 .Replace($"</{tag}>", $"</div>");
 
-        private static (string inside, int firstId, int lastId)? Unjail(string before, string after, string src)
+        public static (string inside, int firstId, int lastId)? Unjail(string before, string after, string src)
         {
             var id1 = src.IndexOf(before);
             if (id1 == -1)
