@@ -5,27 +5,30 @@ it's not a program, it's a library (but easily can be used as a program).
 
 ## How to use
 
-Set the output file.
+Set the output file:
+
+
 <img src="img.png">
 
-Then, here's an example of the first step:
+Now, here's an example of the code:
 
 ```cs
-var parsedBuilder = DocsParser.Parse(@"some_path\bin\Release\netstandard2.0\AngouriMath.xml")
+new WebsiteBuilder(
+        new PageSaver(@"D:/destination_path")
+    )
+    {
+        MainPageName = "Full documentation of my project",
+        MainPageDescription = @"<p>
+SomeDescription</p>
+"
+    }
+    .Build(
+        DocsParser.Parse(
+            "D:/my_project/bin/Release/netstandard2.0/Project.xml"
+        ).Build()
+    );
 ```
 
-With this builder you can change whatever you want right there. Once you've done all you wanted, build it to 
-an immutable documentation tree:
-
-```cs
-var built = parsedBuilder.Build();
-```
-
-Alright, now build the pages
-
-```cs
-new WebsiteBuilder(new PageSaver()).Build(built);
-```
-
-It does NOT build a ready-to-use website. Make sure to go over those files and wrap them with your header
-and footer. At least, 100% customizable.
+It does NOT build a ready-to-use website. Once generated, write a script which
+would add a header and a footer to this. Maybe at some point I will add default
+footer and header, but is the point of doing so? 
