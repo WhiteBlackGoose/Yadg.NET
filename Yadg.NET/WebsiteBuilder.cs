@@ -11,7 +11,7 @@ namespace YadgNet
     {
         public string MainPageName { get; set; } = "My Documentation";
         public string MainPageDescription { get; set; } = "Welcome to manual!";
-        public string MainPageBottomText { get; set; } = $"<hr>Last update: [{DateTime.Now.ToUniversalTime()} UTC]. <i>Via <a href='https://github.com/WhiteBlackGoose/Yadg.NET'>Yadg.NET</a></i>.";
+        public string MainPageBottomText { get; set; } = $"<hr>Last update: [{DateTime.Now.ToUniversalTime():yyyy-MM-dd HH:mm:ss} UTC]. <i>Via <a href='https://github.com/WhiteBlackGoose/Yadg.NET'>Yadg.NET</a></i>.";
         public string BackToNamespacesButtonText { get; set; } = "&#8592; Back to list of namespaces";
         public string BackToClassesButtonText { get; set; } = "&#8592; Back to list of classes";
 
