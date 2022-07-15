@@ -50,7 +50,7 @@ namespace YadgNet
 
                                     p(
                                         a($"./{cls.Name}/{method.Name}.html", h3(method.Name)) + " Method and its overloads"
-                                    ) +
+                                    ) /*+
 
                                     ul("yadg-list-2",
                                         method.Overloads.Select(
@@ -58,7 +58,7 @@ namespace YadgNet
                                                 h3(SplitWrapWordsMethod(method.Name + overload.Parameters)) +
                                                 p(new DescriptionFromXmlBuilder(overload.Description, "../").RemoveTag("example").Build())
                                         )
-                                    )
+                                    )*/
                                     )
                                 ,
                                 DocProperty property =>
