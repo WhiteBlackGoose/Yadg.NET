@@ -6,10 +6,18 @@ namespace YadgNet
 {
     public sealed class DescriptionFromXmlBuilder
     {
-        private readonly string xml;
+        private string xml;
         private readonly string upPath;
         public DescriptionFromXmlBuilder(string xml, string upPath)
-            => (this.xml, this.upPath) = (xml, upPath);        
+            => (this.xml, this.upPath) = (xml, upPath);
+
+        public DescriptionFromXmlBuilder RemoveTag(string tag)
+        {
+            if (Unjail($"<{tag}>", $"</{tag}>", xml) is not var (_, last, next))
+                return this;
+            xml = xml[..last] + xml[next..];
+            return this;
+        }        
 
         private static string ReplaceTag(string before, string tag, string src)
             => src

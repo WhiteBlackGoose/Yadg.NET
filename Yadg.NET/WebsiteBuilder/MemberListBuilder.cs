@@ -44,7 +44,7 @@ namespace YadgNet
                                     p(
                                         a($"./{cls.Name}/{method.Name}.html", h3(SplitWrapWordsMethod(method.Name + method.Overloads.First().Parameters))) + "Method"
                                     ) +
-                                    p(new DescriptionFromXmlBuilder(method.Overloads.First().Description, "../").Build())
+                                    p(new DescriptionFromXmlBuilder(method.Overloads.First().Description, "../").RemoveTag("example").Build())
 
                                     :
 
@@ -56,23 +56,21 @@ namespace YadgNet
                                         method.Overloads.Select(
                                             overload =>
                                                 h3(SplitWrapWordsMethod(method.Name + overload.Parameters)) +
-                                                p(new DescriptionFromXmlBuilder(overload.Description, "../").Build())
+                                                p(new DescriptionFromXmlBuilder(overload.Description, "../").RemoveTag("example").Build())
                                         )
                                     )
                                     )
                                 ,
                                 DocProperty property =>
-                                    $"<a name='{property.Name}'></a>" +
                                     p(
-                                        $"{h3(property.Name)} Property"
+                                        a($"./{cls.Name}/{property.Name}.html", property.Name) + " Property"
                                     ) +
-                                    p(new DescriptionFromXmlBuilder(property.Description, "../").Build()),
+                                    p(new DescriptionFromXmlBuilder(property.Description, "../").RemoveTag("example").Build()),
                                 DocField field =>
-                                    $"<a name='{field.Name}'></a>" +
                                     p(
-                                        $"{h3(field.Name)} Field"
+                                        a($"./{cls.Name}/{field.Name}.html", field.Name) + " Field"
                                     ) +
-                                    p(new DescriptionFromXmlBuilder(field.Description, "../").Build()),
+                                    p(new DescriptionFromXmlBuilder(field.Description, "../").RemoveTag("example").Build()),
                                 _ => throw new Exception()
                             }
                     )
