@@ -9,7 +9,7 @@ public sealed record MemberPageBuilder(INamedDocMember Member)
     public string BackToMembersButtonText { get; init; }
     public string Build(string back)
         =>
-        p(a($"../../{back}", $"&#8592; {BackToMembersButtonText}")) +
+        p(a($"../../{back}", $"{BackToMembersButtonText}")) +
         
         p(Member switch
             {
