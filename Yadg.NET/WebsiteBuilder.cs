@@ -29,11 +29,11 @@ namespace YadgNet
                 ("T:", var full)
                     => $"{NameParser.OneFoldBack(full)}/{NameParser.LastFold(full)}.html",
                 ("P:", var full) when NameParser.OneFoldBack(full) is var classFullName
-                    => $"{NameParser.OneFoldBack(classFullName)}/{NameParser.LastFold(classFullName)}.html#{NameParser.LastFold(full)}",
+                    => $"{NameParser.OneFoldBack(classFullName)}/{NameParser.LastFold(classFullName)}/{NameParser.LastFold(full)}.html",
                 ("F:", var full) when NameParser.OneFoldBack(full) is var classFullName
-                    => $"{NameParser.OneFoldBack(classFullName)}/{NameParser.LastFold(classFullName)}.html#{NameParser.LastFold(full)}",
+                    => $"{NameParser.OneFoldBack(classFullName)}/{NameParser.LastFold(classFullName)}/{NameParser.LastFold(full)}.html",
                 ("M:", var full) when NameParser.OneFoldBack(full) is var classFullName
-                    => $"{NameParser.OneFoldBack(classFullName)}/{NameParser.LastFold(classFullName)}.html#{NameParser.LastFold(NameParser.GetMethodName(full))}",
+                    => $"{NameParser.OneFoldBack(classFullName)}/{NameParser.LastFold(classFullName)}/{NameParser.LastFold(NameParser.GetMethodName(full))}.html",
                 _ => throw new InvalidOperationException()
             };
 
