@@ -74,7 +74,7 @@ namespace YadgNet
                                 new MemberPageBuilder(named)
                                 {
                                     BackToMembersButtonText = BackToMembersButtonText
-                                }.Build(nspace.Name + "_" + cls.Name + ".html")
+                                }.Build(nspace.Name + "/" + cls.Name + ".html")
                             );
         }
     }
