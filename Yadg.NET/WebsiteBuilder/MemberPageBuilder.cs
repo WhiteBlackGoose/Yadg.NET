@@ -6,6 +6,9 @@ namespace YadgNet;
 
 public sealed record MemberPageBuilder(INamedDocMember Member)
 {
+    public string IconNextToMemberInfo { get; init; } =
+        "<span class=\"iconify\" data-icon=\"octicon:diamond-16\"></span>&nbsp;";
+        
     public string BackToMembersButtonText { get; init; }
     public string Build(string back)
         =>
@@ -14,21 +17,22 @@ public sealed record MemberPageBuilder(INamedDocMember Member)
         p(Member switch
             {
                 DocMethod method =>
-                    $"Method {h1(method.Name)}" +
                     (
                     method.Overloads.Count() == 1
 
                     ?
 
                     p(
-                        $"{h3(MemberListBuilder.SplitWrapWordsMethod(method.Name + method.Overloads.First().Parameters))} Method"
+                        h1(MemberListBuilder.SplitWrapWordsMethod(method.Name + method.Overloads.First().Parameters)) +
+                        p($"{IconNextToMemberInfo}Method (no overloads)")
                     ) +
                     p(new DescriptionFromXmlBuilder(method.Overloads.First().Description, "../").Build())
 
                     :
 
                     p(
-                        $"Method {h1(method.Name)} and its overloads"
+                        h1(method.Name) +
+                        p($"{IconNextToMemberInfo}Method with {method.Overloads.Count()} overloads")
                     ) +
 
                     ul("yadg-list-2",
@@ -41,16 +45,18 @@ public sealed record MemberPageBuilder(INamedDocMember Member)
                     )
                 ,
                 DocProperty property =>
-                    $"<a name='{property.Name}'></a>" +
                     p(
-                        $"{h3(property.Name)} Property"
-                    ) +
+                        h1(property.Name) +
+                        p($"{IconNextToMemberInfo}Property")
+                    )
+                    +
                     p(new DescriptionFromXmlBuilder(property.Description, "../").Build()),
                 DocField field =>
-                    $"<a name='{field.Name}'></a>" +
                     p(
-                        $"{h3(field.Name)} Field"
-                    ) +
+                        h1(field.Name) +
+                        p($"{IconNextToMemberInfo}Field")
+                    )
+                    +
                     p(new DescriptionFromXmlBuilder(field.Description, "../").Build()),
                 _ => throw new Exception()
             } 

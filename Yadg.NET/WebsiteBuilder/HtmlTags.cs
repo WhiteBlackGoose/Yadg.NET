@@ -44,5 +44,8 @@ namespace YadgNet
             => tag(text, "strong");
         internal static string cw(string text)
             => tag(text, "text", "cw");
+
+        internal static string sub(string text)
+            => tag(text, "sub");
     }
 }
