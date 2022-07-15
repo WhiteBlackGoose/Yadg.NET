@@ -63,12 +63,12 @@ namespace YadgNet
                                 ,
                                 DocProperty property =>
                                     p(
-                                        a($"./{cls.Name}/{property.Name}.html", property.Name) + " Property"
+                                        a($"./{cls.Name}/{property.Name}.html", h3(property.Name)) + " Property"
                                     ) +
                                     p(new DescriptionFromXmlBuilder(property.Description, "../").RemoveTag("example").Build()),
                                 DocField field =>
                                     p(
-                                        a($"./{cls.Name}/{field.Name}.html", field.Name) + " Field"
+                                        a($"./{cls.Name}/{field.Name}.html", h3(field.Name)) + " Field"
                                     ) +
                                     p(new DescriptionFromXmlBuilder(field.Description, "../").RemoveTag("example").Build()),
                                 _ => throw new Exception()
