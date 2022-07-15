@@ -42,14 +42,14 @@ namespace YadgNet
                                     ?
 
                                     p(
-                                        a($"{back}/{method.Name}.html", h3(SplitWrapWordsMethod(method.Name + method.Overloads.First().Parameters))) + "Method"
+                                        a($"./{cls.Name}/{method.Name}.html", h3(SplitWrapWordsMethod(method.Name + method.Overloads.First().Parameters))) + "Method"
                                     ) +
                                     p(new DescriptionFromXmlBuilder(method.Overloads.First().Description, "../").Build())
 
                                     :
 
                                     p(
-                                        a($"{back}/{method.Name}.html", h3(method.Name)) + " Method and its overloads"
+                                        a($"./{cls.Name}/{method.Name}.html", h3(method.Name)) + " Method and its overloads"
                                     ) +
 
                                     ul("yadg-list-2",
