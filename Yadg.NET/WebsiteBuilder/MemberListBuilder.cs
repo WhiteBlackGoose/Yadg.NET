@@ -36,21 +36,20 @@ namespace YadgNet
                             => member switch
                             {
                                 DocMethod method =>
-                                    $"<a name='{method.Name}'></a>" +
                                     (
                                     method.Overloads.Count() == 1
 
                                     ?
 
                                     p(
-                                        $"{h3(SplitWrapWordsMethod(method.Name + method.Overloads.First().Parameters))} Method"
+                                        a(h3(SplitWrapWordsMethod(method.Name + method.Overloads.First().Parameters)), $"{back}/{method.Name}.html") + "Method"
                                     ) +
                                     p(new DescriptionFromXmlBuilder(method.Overloads.First().Description, "../").Build())
 
                                     :
 
                                     p(
-                                        $"{h3(method.Name)} Method and its overloads"
+                                        a(h3(method.Name), $"{back}/{method.Name}.html") + " Method and its overloads"
                                     ) +
 
                                     ul("yadg-list-2",
