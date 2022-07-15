@@ -13,7 +13,7 @@ namespace YadgNet
             => this.cls = cls;
 
         internal static string SplitWrapWordsMethod(string method)
-            => method.Replace(",", ", ").Replace("(", " (").Replace(".", ". ");
+            => method.Replace(",", ",&#8203;").Replace("(","&#8203;(").Replace(".", ".&#8203;");
 
         public string Build(string back)
             =>
