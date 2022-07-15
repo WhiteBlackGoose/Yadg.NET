@@ -12,7 +12,7 @@ namespace YadgNet
         public MemberListBuilder(DocClass cls)
             => this.cls = cls;
 
-        private static string SplitWrapWordsMethod(string method)
+        internal static string SplitWrapWordsMethod(string method)
             => method.Replace(",", ", ").Replace("(", " (").Replace(".", ". ");
 
         public string Build(string back)

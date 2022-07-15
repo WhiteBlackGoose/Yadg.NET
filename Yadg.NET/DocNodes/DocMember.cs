@@ -31,13 +31,18 @@ namespace YadgNet
         public override DocField Build() => new DocField(Name ?? throw new NullReferenceException(), Description ?? throw new NullReferenceException());
     }
 
+    public interface INamedDocMember
+    {
+        public string Name { get; }
+    }
+
     public abstract record DocMember;
 
-    public sealed record DocMethod(IEnumerable<DocOverload> Overloads, string Name) : DocMember;
+    public sealed record DocMethod(IEnumerable<DocOverload> Overloads, string Name) : DocMember, INamedDocMember;
 
     public sealed record DocOverload(string Parameters, string Description);
 
-    public sealed record DocProperty(string Name, string Description) : DocMember;
+    public sealed record DocProperty(string Name, string Description) : DocMember, INamedDocMember;
 
-    public sealed record DocField(string Name, string Description) : DocMember;
+    public sealed record DocField(string Name, string Description) : DocMember, INamedDocMember;
 }

@@ -14,6 +14,8 @@ namespace YadgNet
         public string MainPageBottomText { get; set; } = $"<hr>Last update: [{DateTime.Now.ToUniversalTime():yyyy-MM-dd HH:mm:ss} UTC]. <i>Via <a href='https://github.com/WhiteBlackGoose/Yadg.NET'>Yadg.NET</a></i>.";
         public string BackToNamespacesButtonText { get; set; } = "&#8592; Back to list of namespaces";
         public string BackToClassesButtonText { get; set; } = "&#8592; Back to list of classes";
+        
+        public string BackToMembersButtonText { get; set; } = "&#8592; Back to list of members";
 
         private readonly IPageSave saver;
         public WebsiteBuilder(IPageSave saver)
@@ -63,6 +65,17 @@ namespace YadgNet
                             BackToClassesButtonText = BackToClassesButtonText
                         }.Build(nspace.Name + ".html")
                         );
+            
+            foreach (var nspace in assembly.Namespaces)
+                foreach (var cls in nspace.Classes)
+                    foreach (var mem in cls.Members)
+                        if (mem is INamedDocMember named)
+                            saver.Save($"{nspace.Name}/{cls.Name}/{named.Name}.html", 
+                                new MemberPageBuilder(named)
+                                {
+                                    BackToMembersButtonText = BackToMembersButtonText
+                                }.Build(nspace.Name + "_" + cls.Name + ".html")
+                            );
         }
     }
 }
