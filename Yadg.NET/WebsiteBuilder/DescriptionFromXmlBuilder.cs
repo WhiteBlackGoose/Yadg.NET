@@ -95,7 +95,7 @@ namespace YadgNet
                 inside = inside[1..];
             if (inside.EndsWith('\n'))
                 inside = inside.Substring(0, inside.Length - 1);
-            return N2Br(src.Substring(0, first)) + $"<pre><code>{inside.Replace("<br>", "\n")}</code></pre>" + CodeToPreCodeAndN2Br(src.Substring(last));
+            return N2Br(src.Substring(0, first)) + $"<pre><code class=\"language-cs\">{inside.Replace("<br>", "\n")}</code></pre>" + CodeToPreCodeAndN2Br(src.Substring(last));
         }
 
         public string Build()
